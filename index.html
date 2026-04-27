@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Student Success Dashboard</title>
+    <meta name="description" content="A premium platform to help students succeed in school with peer tutoring, study tools, and motivation.">
+    <link rel="stylesheet" href="css.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Login Overlay Styling */
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .login-bg-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: float 20s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(100px, 100px) scale(1.2); }
+            66% { transform: translate(-50px, 150px) scale(0.8); }
+            100% { transform: translate(50px, -50px) scale(1.1); }
+        }
+
+        .login-card {
+            width: 420px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: cardEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes cardEntrance {
+            from { transform: translateY(30px); opacity: 0; filter: blur(10px); }
+            to { transform: translateY(0); opacity: 1; filter: blur(0); }
+        }
+
+        .stagger-in {
+            opacity: 0;
+            transform: translateY(15px);
+            animation: staggerIn 0.5s forwards;
+        }
+
+        @keyframes staggerIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stagger-1 { animation-delay: 0.3s; }
+        .stagger-2 { animation-delay: 0.4s; }
+        .stagger-3 { animation-delay: 0.5s; }
+        .stagger-4 { animation-delay: 0.6s; }
+
+        .login-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.5);
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .login-btn:hover::after {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Overlay -->
+    <div id="loginOverlay">
+        <div class="login-bg-shapes">
+            <div class="shape" style="width: 300px; height: 300px; top: -100px; left: -100px; animation-duration: 25s;"></div>
+            <div class="shape" style="width: 400px; height: 400px; bottom: -150px; right: -100px; animation-duration: 30s; background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%);"></div>
+            <div class="shape" style="width: 250px; height: 250px; top: 40%; left: 80%; animation-duration: 20s; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(79, 70, 229, 0.2) 100%);"></div>
+        </div>
+        <div class="card glass-card login-card">
+            <i class="fas fa-graduation-cap stagger-in stagger-1" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; display: inline-block;"></i>
+            <h1 class="stagger-in stagger-2" style="color: var(--text-main); font-size: 2.5rem; margin-bottom: 0.5rem;">Nexus</h1>
+            <p class="stagger-in stagger-2" style="color: var(--text-muted); margin-bottom: 2rem;">Unlock your academic potential</p>
+            <form id="loginForm" style="max-width: 100%;">
+                <div class="form-group stagger-in stagger-3" style="text-align: left;">
+                    <label>What's your name?</label>
+                    <input type="text" id="usernameInput" placeholder="Enter name to begin..." required style="font-size: 1.1rem; padding: 1rem;">
+                </div>
+                <button type="submit" class="btn btn-primary login-btn stagger-in stagger-4" style="width: 100%; margin-top: 1.5rem; padding: 1rem; font-size: 1.1rem;">
+                    Launch Dashboard <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                </button>
+            </form>
+            <p class="stagger-in stagger-4" style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted);">
+                <i class="fas fa-shield-alt"></i> Secure local session enabled
+            </p>
+        </div>
+    </div>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Nexus</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#" class="nav-item active" onclick="showSection('home', this)">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('tutors', this)">
+                <i class="fas fa-user-graduate"></i> Find Tutors
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('signup', this)">
+                <i class="fas fa-pencil-alt"></i> Become a Tutor
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('calendar', this)">
+                <i class="fas fa-calendar-alt"></i> Calendar
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('practice', this)">
+                <i class="fas fa-lightbulb"></i> Daily Practice
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('focus', this)">
+                <i class="fas fa-clock"></i> Focus Mode
+            </a>
+            <div style="height: 1px; background: var(--border); margin: 1rem 0;"></div>
+            <a href="#" class="nav-item" id="themeToggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i> <span>Dark Mode</span>
+            </a>
+            <a href="#" class="nav-item logout-item" onclick="logout()" style="margin-top: auto; color: #ef4444;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+        <div class="container">
+            <!-- Header Section -->
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div>
+                    <h1 id="welcomeText">Welcome back, Student!</h1>
+                    <p style="color: var(--text-muted);" id="dateDisplay"></p>
+                </div>
+                <div class="card glass-card" style="padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 700; color: var(--primary);">Success Score:</span>
+                    <span id="successScore" style="font-weight: 800; font-family: 'Outfit';">450</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Home -->
+            <section id="home" class="section active">
+                <div class="card glass-card" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; margin-bottom: 2rem;">
+                    <h2 style="color: white;">Quote of the Day</h2>
+                    <p id="quoteText" style="font-style: italic; font-size: 1.1rem; margin-bottom: 1rem;">"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
+                    <p id="quoteAuthor" style="font-weight: 600;">— Winston Churchill</p>
+                </div>
+
+                <div class="grid-dashboard">
+                    <div class="card">
+                        <h3>Upcoming Events</h3>
+                        <div id="homeEvents">
+                            <p style="color: var(--text-muted);">No events today. Use the calendar to add some!</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Your Performance</h3>
+                        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">
+                                    <span>Weekly Goal Progress</span>
+                                    <span id="goalPercent">70%</span>
+                                </div>
+                                <div style="height: 10px; background: var(--border); border-radius: 5px; overflow: hidden;">
+                                    <div id="goalBar" style="width: 70%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: width 0.5s ease;"></div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="glass-card" style="padding: 0.75rem; text-align: center; border-radius: 10px;">
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">QUIZZES</p>
+                                    <p id="statQuizzes" style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">0</p>
+                                </div>
+                                <div class="glass-card" style="padding: 0.75rem; text-align: center; border-radius: 10px;">
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">SESSIONS</p>
+                                    <p id="statSessions" style="font-size: 1.25rem; font-weight: 800; color: var(--secondary);">0</p>
+                                </div>
+                            </div>
+
+                            <div style="background: var(--accent-subtle); padding: 1rem; border-radius: 10px;">
+                                <h4 style="font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--text-main);"><i class="fas fa-info-circle"></i> How to earn points:</h4>
+                                <ul style="font-size: 0.75rem; color: var(--text-muted); padding-left: 1.25rem; line-height: 1.5;">
+                                    <li><b>Complete a Quiz:</b> +15 pts</li>
+                                    <li><b>Focus Session:</b> +50 pts</li>
+                                    <li><b>Book a Tutor:</b> +20 pts</li>
+                                    <li><b>Add a Goal:</b> +10 pts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tutors Section -->
+            <section id="tutors" class="section">
+                <h2>Find the Perfect Tutor</h2>
+                <div class="card" style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <select id="subjectFilter" style="flex: 1; min-width: 150px;">
+                        <option value="">All Subjects</option>
+                        <option value="Algebra">Algebra</option>
+                        <option value="Calculus">Calculus</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Literature">Literature</option>
+                        <option value="History">History</option>
+                        <option value="Computer Science">Computer Science</option>
+                    </select>
+                    <select id="yearFilter" style="flex: 1; min-width: 150px;">
+                        <option value="">All Years</option>
+                        <option value="9">Year 9</option>
+                        <option value="10">Year 10</option>
+                        <option value="11">Year 11</option>
+                        <option value="12">Year 12</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="filterTutors()">Apply Filters</button>
+                </div>
+                <div id="tutorsList"></div>
+            </section>
+
+            <!-- Signup Section -->
+            <section id="signup" class="section">
+                <h2>Join the Tutor Community</h2>
+                <div class="card">
+                    <form id="tutorForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="tutorName" readonly style="background: var(--accent-subtle); cursor: not-allowed;">
+                        </div>
+                        <div class="form-group">
+                            <label for="tutorYear">Year Group</label>
+                            <input type="number" id="tutorYear" min="9" max="12" placeholder="e.g. 11" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tutorSubjects">Subjects (Comma separated)</label>
+                            <input type="text" id="tutorSubjects" placeholder="Algebra, Physics, Literature" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tutorBio">Short Bio</label>
+                            <textarea id="tutorBio" rows="3" placeholder="Tell students about your strengths" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Days Available</label>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.3rem; font-weight: normal;"><input type="checkbox" name="tutorDays" value="1" checked> Mon</label>
+                                <label style="display: flex; align-items: center; gap: 0.3rem; font-weight: normal;"><input type="checkbox" name="tutorDays" value="2" checked> Tue</label>
+                                <label style="display: flex; align-items: center; gap: 0.3rem; font-weight: normal;"><input type="checkbox" name="tutorDays" value="3" checked> Wed</label>
+                                <label style="display: flex; align-items: center; gap: 0.3rem; font-weight: normal;"><input type="checkbox" name="tutorDays" value="4" checked> Thu</label>
+                                <label style="display: flex; align-items: center; gap: 0.3rem; font-weight: normal;"><input type="checkbox" name="tutorDays" value="5" checked> Fri</label>
+                                <label style="display: flex; align-items: center; gap: 0.3rem; font-weight: normal;"><input type="checkbox" name="tutorDays" value="6"> Sat</label>
+                                <label style="display: flex; align-items: center; gap: 0.3rem; font-weight: normal;"><input type="checkbox" name="tutorDays" value="0"> Sun</label>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <div class="form-group" style="flex: 1;">
+                                <label>Start Hour (24h)</label>
+                                <input type="number" id="tutorStart" min="0" max="23" value="15" required>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label>End Hour (24h)</label>
+                                <input type="number" id="tutorEnd" min="0" max="23" value="18" required>
+                            </div>
+                        </div>
+                        <input type="hidden" id="tutorAvailability" value="Flexible">
+                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Calendar Section -->
+            <section id="calendar" class="section">
+                <h2>Study Calendar</h2>
+                <div class="grid-dashboard">
+                    <div class="card">
+                        <div id="calendarWidget"></div>
+                    </div>
+                    <div class="card">
+                        <h3>Add Event</h3>
+                        <form id="eventForm">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="eventDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Event Title</label>
+                                <input type="text" id="eventTitle" placeholder="Exam prep, Tutoring..." required>
+                            </div>
+                            <div class="form-group">
+                                <label>Details/Notes</label>
+                                <textarea id="eventNotes" rows="3" placeholder="Additional details about the event..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add to Calendar</button>
+                        </form>
+                        <div id="eventsList" style="margin-top: 1.5rem;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Practice Section -->
+            <section id="practice" class="section">
+                <h2>Daily Knowledge Boost</h2>
+                <div class="card" style="margin-bottom: 2rem;">
+                    <p style="margin-bottom: 1rem;">Choose a subject to test your knowledge!</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <div style="flex: 1; min-width: 150px;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Subject</label>
+                            <select id="practiceCategory" style="width: 100%;">
+                                <option value="18">Computer Science</option>
+                                <option value="19">Mathematics</option>
+                                <option value="17">Science & Nature</option>
+                                <option value="23">History</option>
+                                <option value="10">Literature</option>
+                                <option value="20">Mythology</option>
+                                <option value="22">Geography</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Difficulty</label>
+                            <select id="practiceDifficulty" style="width: 100%;">
+                                <option value="">Any Difficulty</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; align-items: flex-end;">
+                            <button class="btn btn-primary" onclick="loadAIPractice()">Generate Questions</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="questions"></div>
+            </section>
+
+            <!-- Booking Section -->
+            <section id="booking" class="section">
+                <h2>Schedule Your Session</h2>
+                <div class="grid-dashboard">
+                    <div class="card">
+                        <div id="bookingTutorInfo"></div>
+                    </div>
+                    <div class="card">
+                        <h3>Session Details</h3>
+                        <form id="bookingForm">
+                            <input type="hidden" id="bookingTutorId">
+                            <div class="form-group">
+                                <label>Student Name</label>
+                                <input type="text" id="bookingStudentName" readonly style="background: var(--accent-subtle); cursor: not-allowed;">
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred Date</label>
+                                <input type="date" id="bookingDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Available Time Slots</label>
+                                <select id="bookingTime" required>
+                                    <option value="">Select a date first...</option>
+                                </select>
+                                <small style="color: var(--text-muted); font-size: 0.75rem;">Only showing times when this tutor is available.</small>
+                            </div>
+                            <div class="form-group">
+                                <label>What do you need help with?</label>
+                                <textarea id="bookingNotes" rows="3" placeholder="e.g. Solving quadratic equations"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Focus Mode (Pomodoro) -->
+            <section id="focus" class="section">
+                <h2>Focus Mode</h2>
+                <div class="timer-container card">
+                    <p style="color: #94a3b8; font-weight: 600;">POMODORO TIMER</p>
+                    <div class="timer-display" id="timer">25:00</div>
+                    <div style="display: flex; justify-content: center; gap: 1rem;">
+                        <button class="btn btn-primary" id="startBtn" onclick="toggleTimer()">Start Focus</button>
+                        <button class="btn btn-primary" style="background: #334155;" onclick="resetTimer()">Reset</button>
+                    </div>
+                </div>
+                <div class="grid-dashboard" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Why Focus?</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">The Pomodoro Technique helps you stay productive by breaking work into intervals, traditionally 25 minutes in length, separated by short breaks.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js.js"></script>
+</body>
+</html>
