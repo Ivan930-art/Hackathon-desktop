@@ -510,7 +510,71 @@ window.onload = () => {
     updateDashboard();
     fetchQuote();
     loadAIPractice();
+    createAcademicBackground();
+    
+    // Add animation to login screen as well
+    const loginOverlay = document.getElementById('loginOverlay');
+    if (loginOverlay) {
+        const loginBg = document.createElement('div');
+        loginBg.className = 'academic-bg';
+        loginBg.style.zIndex = '0';
+        loginBg.style.background = 'transparent';
+        loginOverlay.prepend(loginBg);
+        createAcademicBackground(loginBg);
+    }
 };
+
+function createAcademicBackground(containerElement) {
+    const container = containerElement || document.createElement('div');
+    if (!containerElement) {
+        container.className = 'academic-bg';
+        document.body.prepend(container);
+    }
+
+    const subjects = [
+        { icon: 'fa-calculator', color: '#e11d48' }, // Math
+        { icon: 'fa-flask', color: '#e11d48' },      // Science
+        { icon: 'fa-book', color: '#e11d48' },       // English
+        { icon: 'fa-globe', color: '#e11d48' },      // Geography
+        { icon: 'fa-palette', color: '#e11d48' },    // Art
+        { icon: 'fa-microscope', color: '#e11d48' }, // Bio
+        { icon: 'fa-brain', color: '#e11d48' },      // Psychology
+        { icon: 'fa-music', color: '#e11d48' },      // Music
+        { icon: 'fa-graduation-cap', color: '#e11d48' },
+        { icon: 'fa-pencil-alt', color: '#e11d48' },
+        { icon: 'fa-atom', color: '#e11d48' },
+        { icon: 'fa-dna', color: '#e11d48' }
+    ];
+    
+    const formulas = ['E=mc²', 'a²+b²=c²', 'F=ma', 'H₂O', 'π≈3.14', '∫f(x)dx', 'y=mx+b', 'sin(θ)', 'CO₂', 'v=d/t', '∑n', '√x', 'DNA', 'RNA'];
+    
+    const count = containerElement ? 30 : 65;
+
+    for (let i = 0; i < count; i++) {
+        const isFormula = Math.random() > 0.6;
+        const element = document.createElement(isFormula ? 'span' : 'i');
+        
+        if (isFormula) {
+            element.className = 'formula chalk';
+            element.textContent = formulas[Math.floor(Math.random() * formulas.length)];
+        } else {
+            const subject = subjects[Math.floor(Math.random() * subjects.length)];
+            element.className = `fas ${subject.icon} floating-icon chalk ${Math.random() > 0.5 ? 'alternate' : ''}`;
+        }
+        
+        const size = isFormula ? Math.random() * (22 - 12) + 12 : Math.random() * (35 - 18) + 18;
+        const left = Math.random() * 100;
+        const delay = Math.random() * 30;
+        const duration = Math.random() * (40 - 20) + 20;
+        
+        element.style.setProperty('--size', `${size}px`);
+        element.style.setProperty('--left', `${left}%`);
+        element.style.setProperty('--duration', `${duration}s`);
+        element.style.animationDelay = `-${delay}s`; 
+        
+        container.appendChild(element);
+    }
+}
 
 function logout() {
     // 1. Immediately dim the app
@@ -612,15 +676,51 @@ const loginHandler = function(e) {
             document.getElementById('loginOverlay').style.display = 'none';
             
             // Animate dashboard in
-            main.style.transition = 'all 0.6s ease-out';
-            sidebar.style.transition = 'all 0.6s ease-out';
-            main.style.transform = 'translateY(0)';
-            main.style.opacity = '1';
-            sidebar.style.transform = 'translateX(0)';
-            sidebar.style.opacity = '1';
-        }, 800);
-    }, 1500);
+        main.style.transition = 'all 0.6s ease-out';
+        sidebar.style.transition = 'all 0.6s ease-out';
+        main.style.transform = 'translateY(0)';
+        main.style.opacity = '1';
+        sidebar.style.transform = 'translateX(0)';
+        sidebar.style.opacity = '1';
+        
+        animateScore(0, successScore);
+    }, 800);
+}, 1500);
 };
+
+function animateScore(start, end) {
+    const obj = document.getElementById('successScore');
+    let current = start;
+    const range = end - start;
+    const increment = end > start ? 1 : -1;
+    const stepTime = Math.abs(Math.floor(2000 / range)) || 50;
+    
+    if (range === 0) return;
+
+    const timer = setInterval(() => {
+        current += increment;
+        obj.textContent = current;
+        if (current == end) {
+            clearInterval(timer);
+        }
+    }, stepTime);
+}
+
+// Mouse Parallax for Background
+document.addEventListener('mousemove', (e) => {
+    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+    
+    const backgrounds = document.querySelectorAll('.academic-bg');
+    backgrounds.forEach(bg => {
+        const icons = bg.querySelectorAll('.floating-icon, .formula');
+        icons.forEach((icon, index) => {
+            const depth = (index % 5 + 1) * 0.5;
+            icon.style.marginLeft = `${moveX * depth}px`;
+            icon.style.marginTop = `${moveY * depth}px`;
+        });
+    });
+});
 
 // Update the original listener attachment
 document.getElementById('loginForm').addEventListener('submit', loginHandler);

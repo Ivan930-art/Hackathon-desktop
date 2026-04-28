@@ -16,7 +16,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 100%);
+            background: radial-gradient(circle at 50% 50%, #450a0a 0%, #000000 100%);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -34,7 +34,7 @@
 
         .shape {
             position: absolute;
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
+            background: linear-gradient(135deg, rgba(225, 29, 72, 0.2) 0%, rgba(244, 63, 94, 0.2) 100%);
             border-radius: 50%;
             filter: blur(40px);
             animation: float 20s infinite alternate;
@@ -54,6 +54,8 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             animation: cardEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            z-index: 10;
         }
 
         @keyframes cardEntrance {
@@ -84,7 +86,7 @@
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.5);
+            box-shadow: 0 10px 20px -5px rgba(225, 29, 72, 0.5);
         }
 
         .login-btn::after {
@@ -109,8 +111,8 @@
     <div id="loginOverlay">
         <div class="login-bg-shapes">
             <div class="shape" style="width: 300px; height: 300px; top: -100px; left: -100px; animation-duration: 25s;"></div>
-            <div class="shape" style="width: 400px; height: 400px; bottom: -150px; right: -100px; animation-duration: 30s; background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%);"></div>
-            <div class="shape" style="width: 250px; height: 250px; top: 40%; left: 80%; animation-duration: 20s; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(79, 70, 229, 0.2) 100%);"></div>
+            <div class="shape" style="width: 400px; height: 400px; bottom: -150px; right: -100px; animation-duration: 30s; background: linear-gradient(135deg, rgba(225, 29, 72, 0.2) 0%, rgba(159, 18, 57, 0.2) 100%);"></div>
+            <div class="shape" style="width: 250px; height: 250px; top: 40%; left: 80%; animation-duration: 20s; background: linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(225, 29, 72, 0.2) 100%);"></div>
         </div>
         <div class="card glass-card login-card">
             <i class="fas fa-graduation-cap stagger-in stagger-1" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; display: inline-block;"></i>
@@ -182,7 +184,7 @@
 
             <!-- Dashboard Home -->
             <section id="home" class="section active">
-                <div class="card glass-card" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; margin-bottom: 2rem;">
+                <div class="card glass-card" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; margin-bottom: 2rem;">
                     <h2 style="color: white;">Quote of the Day</h2>
                     <p id="quoteText" style="font-style: italic; font-size: 1.1rem; margin-bottom: 1rem;">"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
                     <p id="quoteAuthor" style="font-weight: 600;">— Winston Churchill</p>
